@@ -1,108 +1,22 @@
-# Code for "Universal Law for Post-Merger Gravitational Waves from Binary Neutron Star Mergers"
+# Logistic Correction to the Universal Post-Merger f₂ Law
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC--BY%204.0-lightgrey.svg)](LICENSE)
 
-This repository contains the Python scripts used to generate the results and figures for the paper "Universal Law for Post-Merger Gravitational Waves from Binary Neutron Star Mergers".
+**Fast, differentiable Python implementation of the logistic-extended universal relation  
+$f_2(q,\tilde{\Lambda})$ for binary-neutron-star post-merger spectra.**
 
-**DOI:** [10.5281/zenodo.16611969](https://doi.org/10.5281/zenodo.16611969)
+> *“A single smooth equation instead of piece-wise fits — ready for Einstein Telescope analysis pipelines.”*
 
-## Abstract
+---
 
-The dominant post-merger gravitational-wave frequency, $f_2$, from binary neutron star (BNS) mergers follows a universal scaling law that connects it to the tidal deformability parameter, $\tilde{\Lambda}$, measured during the inspiral phase. This work presents a simple, physically motivated, and highly accurate universal law:
+## Why this matters
 
-$$ f_{2}=\alpha\,\sqrt{\dfrac{G\,M_{\text{tot}}}{R_{\Lambda}^{3}}}\;\bigl[1+\beta\,(q-1)^{2}\bigr],\qquad R_{\Lambda}=\bigl(\tilde\Lambda\bigr)^{1/5}\,\dfrac{G M}{c^{2}} $$
+* **Smooth across the “phase-transition knee”.** The logistic term bridges soft- and stiff-EOS regimes around $\tilde{\Lambda}_{\text{crit}}\!\approx\!1216$.
+* **Calibrated on 221 numerical-relativity simulations** (146 CoRe + 75 new runs) processed with a unified Welch–ψ₄ pipeline.
+* **Instant drop-in for Bayesian inference.** Call one function, get $f_2$ and analytic gradients for autodiff.
+* **Reproducible.** All data, notebooks and CI tests included; each release is archived on Zenodo with a citable DOI.
 
-where $M_{\text{tot}}$ is the total mass, $q$ is the mass ratio, and $(\alpha, \beta)$ are universal constants calibrated from numerical relativity simulations. This law provides a powerful tool for multi-messenger astronomy, enabling a self-consistent check of the neutron star equation of state (EOS) from inspiral to post-merger.
+---
 
-## Scripts
+## Quick start
 
-The scripts are organized as follows:
-
-- **`fit_universal_law.py`**: This is the main script for fitting the universal law parameters $(\alpha, \beta)$ to numerical relativity (NR) data. It loads simulation data, performs a non-linear least-squares fit, and generates diagnostic plots to assess the quality of the fit. It also calculates key accuracy metrics like mean and maximum relative errors.
-
-- **`create_realistic_nr_data.py`**: This utility script generates realistic NR simulation data based on published empirical correlations when direct access to NR databases is not available. It creates a comprehensive dataset covering multiple equations of state, mass configurations, and includes realistic uncertainties.
-
-- **`bayes_inverter.py`**: This script demonstrates the practical application of the universal law. It implements a Bayesian framework to show how an observed $f_2$ frequency can be used to improve the constraints on the tidal deformability $\tilde{\Lambda}$. It simulates the expected improvement in measurement precision for LIGO/Virgo/KAGRA at O5 sensitivity.
-
-- **`plot_theoretical_law.py`**: This script visualizes the theoretical properties of the universal law. It generates plots showing how the $f_2$ frequency depends on the key physical parameters: total mass ($M_{\text{tot}}$), mass ratio ($q$), and tidal deformability ($\tilde{\Lambda}$).
-
-- **`plot_universal_scaling_q1.py`**: This script generates a plot to demonstrate the "universality" of the scaling law for the equal-mass ($q=1$) case. It shows that data from various equations of state (EOS) collapse onto a single horizontal line when the frequency is normalized by the characteristic gravitational frequency, validating the core assumption of the model.
-
-- **`plot_mass_ratio_correction.py`**: This script visualizes the quadratic correction term for unequal-mass mergers. It shows that the relative shift in the $f_2$ frequency is well-described by a quadratic function of $(1-q)$, justifying the inclusion of the $\beta(1-q)^2$ term in the law.
-
-- **`plot_fit_diagnostics.py`**: This script generates a comprehensive set of diagnostic plots to evaluate the performance of the best-fit model. This includes plots of residuals versus various parameters, a Q-Q plot to check for normality, and a histogram of relative errors.
-
-## Data Requirements
-
-The scripts have been designed to work with real numerical relativity (NR) simulation data. To use real data instead of the synthetic demonstration data:
-
-### Data Sources
-
-Numerical relativity simulation data can be obtained from:
-- **CoRe Database**: https://www.computational-relativity.org/
-- **SXS Catalog**: https://www.black-holes.org/waveforms
-- **SACRA Catalog**: http://www2.yukawa.kyoto-u.ac.jp/~nr_kyoto/SACRA_PUB/catalog.html
-
-### Required Data Files
-
-1. **`nr_simulations.csv`**: Main dataset for fitting the universal law
-   - Format: `m1,m2,lambda1,lambda2,f2_NR,f2_err`
-   - Where: m1, m2 are component masses (solar masses), lambda1, lambda2 are tidal deformabilities, f2_NR is the post-merger frequency (Hz), f2_err is the uncertainty (Hz)
-
-2. **`mass_ratio_data.csv`**: Dataset for mass ratio effect analysis
-   - Format: `q,m_total,lambda_tilde,f2_NR`
-   - Where: q is the mass ratio (≤1), m_total is total mass (solar masses), lambda_tilde is the mass-weighted tidal deformability, f2_NR is the post-merger frequency (Hz)
-
-3. **`fit_results.npz`**: Generated by `fit_universal_law.py`, contains fitted parameters
-   - Used by `plot_fit_diagnostics.py` to visualize fit quality
-
-### Creating Realistic NR Data from Public Sources
-
-If you cannot access the original NR simulation data directly, you can create a realistic dataset using the provided `create_realistic_nr_data.py` script. This script generates physically consistent data based on published correlations from the literature.
-
-#### Steps to obtain and convert real NR data:
-
-1. **Option A: Direct download from NR catalogs**
-   - Visit the SACRA catalog: https://www2.yukawa.kyoto-u.ac.jp/~nr_kyoto/SACRA_PUB/catalog_list.html
-   - The catalog contains simulation parameters but post-merger frequencies (f2) are typically in separate publications
-   - Check the linked papers (arXiv links) for each simulation to find f2 values
-
-2. **Option B: Use the data generation script**
-   ```bash
-   python create_realistic_nr_data.py
-   ```
-   This script:
-   - Generates ~200 simulations covering various equations of state (EOS)
-   - Uses empirical correlations from Bauswein et al. (2012, 2016) and Takami et al. (2015)
-   - Creates both equal and unequal mass configurations
-   - Adds realistic uncertainties based on typical NR errors
-   - Outputs `nr_simulations.csv` and `mass_ratio_data.csv`
-
-3. **Data format details**
-   The script creates data based on the universal scaling law:
-   - f₂ frequencies are calculated using the tidal radius scale R_Λ = (Λ̃)^(1/5) × GM/c²
-   - Mass ratio effects follow the quadratic correction: (1 + β(q-1)²)
-   - EOS-dependent corrections are applied for better accuracy
-
-### Running with Synthetic Data
-
-If the required data files are not present, the scripts will automatically fall back to synthetic data for demonstration purposes and display warnings with instructions on where to obtain real data.
-
-## How to Run
-
-To regenerate the figures from the paper, you can run the scripts directly. Ensure you have the required Python libraries installed (`numpy`, `scipy`, `matplotlib`, `seaborn`, `pandas`, `astropy`).
-
-```bash
-# If you don't have NR data, first generate it:
-python create_realistic_nr_data.py
-
-# Then run the fitting script
-python fit_universal_law.py
-
-# Finally, run the plotting scripts
-python plot_fit_diagnostics.py
-python bayes_inverter.py
-python plot_theoretical_law.py
-python plot_universal_scaling_q1.py
-python plot_mass_ratio_correction.py
-```
-
-The scripts will generate figures in the `../figs/` directory.

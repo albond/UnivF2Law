@@ -30,6 +30,15 @@ $f_2(q,\tilde{\Lambda})$ for binary-neutron-star post-merger spectra.**
 ```bash
 pip install -r requirements.txt
 ```
+- To ensure the project runs smoothly, please create the following subdirectories at the root of the repository. These folders are required for input/output during data processing and model execution:
+<pre>
+<project-root>/
+├── CoRe/       # Stores raw or processed simulation data from CoRe
+├── data/       # Contains preprocessed datasets or intermediate files
+├── figs/       # Output directory for generated figures and plots
+├── results/    # Stores results and final output files
+</project-root>
+</pre>
 
 ### Step 1: Data Preparation
 

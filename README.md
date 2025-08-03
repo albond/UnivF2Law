@@ -1,5 +1,5 @@
 # Logistic Correction to the Universal Post-Merger f₂ Law
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16611969.svg)](https://doi.org/10.5281/zenodo.16611969)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16730307.svg)](https://doi.org/10.5281/zenodo.16730307)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE-MIT)
 
 **Fast, differentiable Python implementation of the logistic-extended universal relation  

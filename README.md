@@ -106,8 +106,8 @@ Create a scientifically accurate animation of binary neutron star merger:
 ```bash
 # Generate animated GIF showing inspiral, merger, and post-merger phases
 python create_merger_visual.py
-# Creates: bns_merger_enhanced.gif (~130 MB)
-# Runtime: ~3 min
+# Creates: bns_merger_enhanced.gif (start from 80 MB), configurable
+# Runtime: ~5-10 min
 ```
 
 This visualization demonstrates key physics from our model:

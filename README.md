@@ -143,3 +143,9 @@ After running all scripts, you'll have:
 - **`data/`**: Processed simulation data
 - **`CoRe/`**: Downloaded HDF5 files from numerical simulations
 - **`bns_merger_enhanced.gif`**: Animated visualization of the merger physics
+
+## 🙌 Like the Project?
+
+If you find this project useful or insightful, don't forget to ⭐️ it on [GitHub](https://github.com/albond/UnivF2Law)!
+
+Your support means a lot and helps keep the project alive 🚀
